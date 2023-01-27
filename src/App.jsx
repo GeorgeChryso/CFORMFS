@@ -4,12 +4,13 @@ import {Typography, AppBar, Toolbar, Container, TextField, Item,Box,Divider,Form
     import { BottomNavigation } from '@material-ui/core';
     import { BottomNavigationAction } from '@mui/material';
     import Checkbox from '@mui/material/Checkbox';
-
+    import Button from '@mui/material/Button';
 import logo from './SmellyLogo.png'
 import logobottom from './logoBottom.png'
 import './index.css'
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@mui/material/Grid';
+import { createTheme ,ThemeProvider} from '@mui/material/styles';
 
 const useStyles = makeStyles(() => ({
     typography: {
@@ -32,11 +33,38 @@ const useStyles3 = makeStyles(() => ({
       fontFamily: 'Manrope-ExtraBold',
     },
   }));
+
+
+
+  let btheme = createTheme({
+     
+    palette: {
+      primary: {
+        main: '#EF7878',   //button color
+        contrastText: '#fff', // text color
+      }
+    },
+    typography: {
+        fontFamily: 'Manrope-SemiBold',
+        color:'#EF7878',
+        fontSize: 20,
+        htmlFontSize: 14,
+        letterSpacing: '-0.17px',
+        lineHeight: '22.5px',
+        textAlign: `left`,
+        fontWeight:'bold'
+      }
+
+  });
+  
 const App=()=>{
 
     const classes = useStyles();
     const classes2 = useStyles2();
-    const classes3 =useStyles3()
+    const classes3 =useStyles3();
+   // const classes4=btheme()
+ //   const butclasses=butTheme();
+
         return (
             <>
             <CssBaseline />
@@ -109,41 +137,22 @@ const App=()=>{
                     </Container>
                 </Grid>
             </Grid>
-
-
-
                   <Checkbox  />
                   <Typography>
                     I agree with the terms and conditions
                   </Typography>
-
-                        <Typography variant="h4" className={classes2.typography}  color="textPrimary" gutterBottom>
-                                        We are all cat persons, so if you got any questions, drop it below and we will contact you back!
-                        </Typography> <Typography variant="h4" className={classes2.typography}  color="textPrimary" gutterBottom>
-                                        We are all cat persons, so if you got any questions, drop it below and we will contact you back!
-                        </Typography> <Typography variant="h4" className={classes2.typography}  color="textPrimary" gutterBottom>
-                                        We are all cat persons, so if you got any questions, drop it below and we will contact you back!
-                        </Typography> <Typography variant="h4" className={classes2.typography}  color="textPrimary" gutterBottom>
-                                        We are all cat persons, so if you got any questions, drop it below and we will contact you back!
-                        </Typography> <Typography variant="h4" className={classes2.typography}  color="textPrimary" gutterBottom>
-                                        We are all cat persons, so if you got any questions, drop it below and we will contact you back!
-                        </Typography> <Typography variant="h4" className={classes2.typography}  color="textPrimary" gutterBottom>
-                                        We are all cat persons, so if you got any questions, drop it below and we will contact you back!
-                        </Typography> <Typography variant="h4" className={classes2.typography}  color="textPrimary" gutterBottom>
-                                        We are all cat persons, so if you got any questions, drop it below and we will contact you back!
-                        </Typography> <Typography variant="h4" className={classes2.typography}  color="textPrimary" gutterBottom>
-                                        We are all cat persons, so if you got any questions, drop it below and we will contact you back!
-                        </Typography> <Typography variant="h4" className={classes2.typography}  color="textPrimary" gutterBottom>
-                                        We are all cat persons, so if you got any questions, drop it below and we will contact you back!
-                        </Typography> <Typography variant="h4" className={classes2.typography}  color="textPrimary" gutterBottom>
-                                        We are all cat persons, so if you got any questions, drop it below and we will contact you back!
-                        </Typography><Typography variant="h4" className={classes2.typography}  color="textPrimary" gutterBottom>
-                                        We are all cat persons, so if you got any questions, drop it below and we will contact you back!
-                        </Typography><Typography variant="h4" className={classes2.typography}  color="textPrimary" gutterBottom>
-                                        We are all cat persons, so if you got any questions, drop it below and we will contact you back!
-                        </Typography><Typography variant="h4" className={classes2.typography}  color="textPrimary" gutterBottom>
-                                        We are all cat persons, so if you got any questions, drop it below and we will contact you back!
-                        </Typography>
+            
+            {/* SUBMIT BUTTON */}
+            <ThemeProvider theme={btheme}>
+                <Button   variant="contained" sx={{ textTransform: 'none',mb:"5%",fontWeight: 'bold',fontSize: 20, }} style={{  width: 169,height: 48,  borderRadius:5 }}>
+                    <Typography color="primary.contrastText" gutterBottom>
+                        Send!
+                    </Typography>
+                </Button>
+                <Typography color="primary.contrastText" >
+                        Sendz!
+                </Typography>
+            </ThemeProvider>
 
 
         </Box>
@@ -154,7 +163,7 @@ const App=()=>{
 
             <Box sx={{mt: "auto"}} >
                 <AppBar position="static" color="black" sx={{mt:"auto"}} style={{ background: '#000000' }}>
-                    <Toolbar>
+                    <Toolbar variant="contained">
                         <Box sx={{mx: "8.33%",my:"6.21%"}}>
                             <img src={logobottom}/>
                         </Box>            
