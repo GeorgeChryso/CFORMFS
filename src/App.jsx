@@ -176,7 +176,7 @@ const App=()=>{
             <CssBaseline />
 <div mainLayout={ml.root}>
 {/* <Box sx={{ display: 'flex',flexDirection:'column' }}> */}
-<Box >
+<Box sx={{height:'100vh'}}>
     
 
             <AppBar position="static"  style={{ background: '#FFFFFF' }}  >
@@ -376,21 +376,19 @@ const App=()=>{
  
         {/* FOOTER */}
         
-        <AppBar  bottom="0" position="relative" color="black" style={{ bottom:0,background: '#000000' }} fullWidth>
+      
+       
+      
+</Box>
+<AppBar  position="relative"  style={{ bottom:0,background: '#000000' }} fullWidth>
                     <Toolbar >
-                    <Box sx={{mx: "120px",height:150, mb:'10px',flexDirection: 'column'}}>
+                    <Box sx={{mx: "120px",height:150, mb:'0px',mt:'10px',flexDirection: 'column'}}>
                             <img src={logobottom}/>
                         </Box>            
                     </Toolbar>
                 </AppBar> 
 
-       
-      
-</Box>
-<div className={ml.footer}>
-        <Box sx={{bottom:0,height:100,backgroundColor:'#791010'}}>
-        </Box>       
-      </div>
+
 </div>
               
             </>
