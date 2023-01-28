@@ -105,8 +105,62 @@ import { createTheme ,ThemeProvider} from '@mui/material/styles';
         'lineSpacing': 17
       }})
   )
+  let placeholdertext=makeStyles(()=>({
+    typography: {
+        'fontFamily': 'Manrope',
+        'color':'#A0A9BA',
+        "fontSize": 16,
+        'letterSpacing': -0.23,
+        'textAlign': `left`,
+        'fontWeight': `medium`,
+        'lineSpacing': 17, 
+      }})
+  )
+
+  const alright = makeStyles({
+    container: {
+      display: 'flex',
+      justifyContent: 'flex-end'
+    }
+  });
+
+  const zStyles = makeStyles((theme) => ({
+    input: {
+        '&:-moz-placeholder': {
+        color: '#A0A9BA',
+        fontFamily: 'Manrope',
+        fontSize: 100,
+        letterSpacing: -0.23,
+        textAlign: 'left',
+        fontWeight: 'medium',
+        lineSpacing: 17,
+        // marginBottom: '500px !important',
+      },
+    },
+  }));
+
+
+  const mainLayout = makeStyles({
+    root: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'stretch',
+      minHeight: '100vh',
+      justifyContent:'space-between'
+    },
+    main: {
+      flex: '1',
+    },
+    footer: {
+      flex: '1',
+      //position:'absolute',
+      marginBottom: 0
+    },
+  });
+
 const App=()=>{
 
+    const ml=mainLayout()
     const menu=menuTheme()
     const title=titleTheme()
     const catpersons=catPersons()
@@ -114,12 +168,19 @@ const App=()=>{
     const headq=hq()
     const cont=cinfo()
     const optional=opt()
+    const alignright=alright()
+    const plctext=placeholdertext()
+    const prpstyle=zStyles()
         return (
             <>
             <CssBaseline />
-<Box bgcolor="#EFF1F4" >
+<div mainLayout={ml.root}>
+{/* <Box sx={{ display: 'flex',flexDirection:'column' }}> */}
+<Box >
+    
+
             <AppBar position="static"  style={{ background: '#FFFFFF' }}  >
-                <Box sx={{mx: "120px"}}>
+                <Box sx={{mx: "120px",height:48}}>
                     <Toolbar >
                         <Grid container spacing={2}> 
 
@@ -166,7 +227,7 @@ const App=()=>{
 
 
 
-    <Box  sx={{ minHeight: "80vh",mx:"120px" }}>
+    <Box  sx={{ minHeight: "80vh",mx:"120px" }} className={ml.main}>
             <Grid container spacing={2}> 
                 <Grid container item  xs={6.5}>{/*out of 12*/} 
 
@@ -189,9 +250,9 @@ const App=()=>{
                         <Typography className={labels.typography}>Your Full Name</Typography>
                     </Grid>   
 
-                    <Grid item xs={9} sx={{mt:'40px'}}>
+                    <Grid item xs={9}  className={alignright.container} sx={{mt:'40px'}}>
                         <Box >
-                            <TextField style={{width:357,height:40}}  id="outlined-basic" label="Type your name" variant="outlined" fullWidth />
+                            <TextField InputLabelProps={{className: plctext.typography,  style: { marginBottom: '50 !important' }}} InputProps={{style: { width:'357px',height: `40px`,backgroundColor:'#fff' }}}  id="outlined-basic" label="Type your name" variant="outlined" fullWidth />
                         </Box>
                     </Grid>
 
@@ -199,33 +260,38 @@ const App=()=>{
                         <Typography className={labels.typography}>Your Email</Typography>
                     </Grid>
 
-                    <Grid item xs={9} sx={{mt:'40px'}}>
-                        <TextField  style={{width:357,height:40}} id="outlined-basic" label="Type your email" variant="outlined" fullWidth/>
+                    <Grid item xs={9}  className={alignright.container} sx={{mt:'40px'}}>
+                        <Box >
+                        <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{ style: { width:'357px',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="Type your email" variant="outlined" fullWidth/>
+                        </Box>
                     </Grid>
 
 
 
 
-                    <Grid item xs={12}  sx={{mt:'52px',mr:'12.85%'}}>
+                    <Grid item xs={12}  sx={{mt:'52px'}}>
                         <Divider/>
                     </Grid>
 
 
+                
 
 
                     <Grid item xs={6}  sx={{mt:'40px'}}>
                         <Typography className={labels.typography}>City</Typography>
                     </Grid>
-                    <Grid item xs={6}  sx={{mt:'40px'}}>
+                    <Grid item xs={6}  className={alignright.container} sx={{mt:'40px'}}>
                         <Typography className={labels.typography}>Postal Code</Typography>
                     </Grid>
 
                     <Grid item xs={6} sx={{mt:'8px'}}>
-                            <TextField   style={{width:172,height:40}} id="outlined-basic" label="ex. Thessaloniki" variant="outlined" fullWidth />
+                        <Box>
+                        <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{className:prpstyle.input, style: { width:'172px',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="ex. Thessaloniki" variant="outlined" fullWidth />
+                        </Box>
                     </Grid>
-                    <Grid item xs={6} sx={{mt:'8px'}}>
-                        <Box bgcolor="#fff" sx={{width:122,height:40}}>
-                            <TextField   style={{width:122,height:40}} id="outlined-basic" label="ex. 54658" variant="outlined" fullWidth />
+                    <Grid item xs={6}  className={alignright.container} sx={{mt:'8px'}}>
+                        <Box sx={{width:122,height:40}}>
+                            <TextField  InputLabelProps={{className: plctext.typography}}InputProps={{style: { width:'122px',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="ex. 54658" variant="outlined" fullWidth />
                         </Box>
                     </Grid>
 
@@ -233,7 +299,7 @@ const App=()=>{
                         <Typography className={labels.typography}>Address</Typography>
                     </Grid>
                     <Grid item xs={12} sx={{mt:'8px'}}>
-                        <TextField   style={{width:288,height:40}}id="outlined-basic" label="ex. Thessaloniki" variant="outlined" fullWidth />
+                        <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{style: { width:'288px',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="ex. Thessaloniki" variant="outlined" fullWidth />
                     </Grid>
 
                     
@@ -245,15 +311,16 @@ const App=()=>{
                     </Grid>
                     <Grid item xs={12} sx={{mt:'8px'}}>
                         <Box sx={{width:`476px`,height:`168px`}}>
-                            <TextField  sx={{width:`476px`,height:`168px`}}  minRows={5} id="outlined-multiline-flexible" label="Type your message" variant="outlined" fullWidth multiline />
+                            <TextField   InputLabelProps={{className: plctext.typography}} InputProps={{style: { borderRadius:'5px',width:'476px',height: `168px`,backgroundColor:'#fff'}}}  minRows={5} maxRows={5} id="outlined-multiline-flexible" label="Type your message" variant="outlined" fullWidth multiline />
                         </Box>
+                        
                     </Grid>
                     
 
 
 
 
-                    <Grid item xs={0.7} sx={{mt:'17px'}}>
+                    <Grid item xs={0.7} sx={{mt:'15px'}}>
                         <Checkbox  />
                     </Grid>
 
@@ -275,57 +342,57 @@ const App=()=>{
                     </Grid>
                 </Grid>
 
-                <Grid item container xs={5.5} display='flex' flexDirection='row-reverse' justifyContent="flex-end">
-                    <Grid item xs={ 12}>
-                        <Box sx={{mt:'160px',width:"476px",height:"416px"}} bgcolor="#791010"  >
+                <Grid item  container xs={5.5}>
+                    <Grid item   className={alignright.container}  xs={ 12}>
+                        <Box   sx={{mt:'160px',width:"476px",height:"416px"}} bgcolor="#791010" fullWidth >
                         </Box>
                     </Grid>
                     <Grid item xs={ 12}>
-
-                    <Box sx={{mt:'45px'}} >
-                        <Typography className={headq.typography}>
-                            Headquarters
-                        </Typography >
-                    </Box>
+                        <Box>
+                            <Typography className={headq.typography}>
+                                Headquarters
+                            </Typography >
+                        </Box>
+                        <Box>
+                            <Typography className={cont.typography}>
+                                Aristotelous 16, 54658 <br/>
+                                Thessaloniki, Greece <br/><br/>
+                                
+                                +30 231 129 0998<br/>
+                                hey@smellycat.gr
+                            </Typography>
+                        </Box>
                     </Grid>
-                    <Grid item xs={ 12}>
-
-                    <Box sx={{mt:'24px'}} >
-                        <Typography className={cont.typography}>
-                            Aristotelous 16, 54658 <br/>
-                            Thessaloniki, Greece <br/><br/><br/>
-                            
-                            +30 231 129 0998<br/>
-                            hey@smellycat.gr
-                        </Typography>
-                    </Box>
-                    </Grid>
-                    
-
                 </Grid>
+
+
             </Grid>
 
             
       
 
-
         </Box>
 
+ 
         {/* FOOTER */}
         
-            
-
-            {/* <Box  > */}
-                <AppBar position="relative" color="black" style={{ background: '#000000' }}>
-                    <Toolbar variant="contained">
-                        <Box sx={{mx: "120px",height:'174px'}} >
+        <AppBar  bottom="0" position="relative" color="black" style={{ bottom:0,background: '#000000' }} fullWidth>
+                    <Toolbar >
+                    <Box sx={{mx: "120px",height:150, mb:'10px',flexDirection: 'column'}}>
                             <img src={logobottom}/>
                         </Box>            
                     </Toolbar>
-                </AppBar>
-            {/* </Box> */}
+                </AppBar> 
 
+       
+      
 </Box>
+<div className={ml.footer}>
+        <Box sx={{bottom:0,height:100,backgroundColor:'#791010'}}>
+        </Box>       
+      </div>
+</div>
+              
             </>
           );
 }
