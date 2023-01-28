@@ -12,28 +12,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@mui/material/Grid';
 import { createTheme ,ThemeProvider} from '@mui/material/styles';
 
-const useStyles = makeStyles(() => ({
-    typography: {
-      fontFamily: 'Manrope-SemiBold',
-      color:'#555555',
-      //fontSize: 14,
-      htmlFontSize: 14,
-      letterSpacing: '-0.17px',
-      lineHeight: '22.5px',
-      textAlign: `left`
-    },
-  }));
-const useStyles2 = makeStyles(() => ({
-    typography: {
-      fontFamily: 'Manrope-ExtraLight',
-    },
-  }));
-const useStyles3 = makeStyles(() => ({
-    typography: {
-      fontFamily: 'Manrope-ExtraBold',
-    },
-  }));
-
 
 
   let btheme = createTheme({
@@ -47,13 +25,24 @@ const useStyles3 = makeStyles(() => ({
 
   let titleTheme=makeStyles(()=>({
     typography: {
-        'fontFamily': 'Manrope-ExtraBold',
+        'fontFamily': 'Manrope',
         'color':'#000000',
         "fontSize": 40,
         'letterSpacing': -0.5,
         'textAlign': `left`,
-        'fontWeight':'bold',
+        'fontWeight':900,
         'lineSpacing':48,
+      }})
+  )
+  let menuTheme=makeStyles(()=>({
+    typography: {
+        'fontFamily': 'Manrope-ExtraLight',
+        'color':'#555555',
+        "fontSize": 14,
+        'letterSpacing': -0.5,
+        'textAlign': `right`,
+        'fontWeight':'bold',
+        'lineSpacing': 22.5,
       }})
   )
   let catPersons=makeStyles(()=>({
@@ -81,17 +70,50 @@ const useStyles3 = makeStyles(() => ({
         'lineSpacing':17
       }})
   )
+
+  let hq=makeStyles(()=>({
+    typography: {
+        'fontFamily': 'Manrope',
+        'color':'#000000',
+        "fontSize": 24,
+        'letterSpacing': -0.3,
+        'textAlign': `right`,
+        'fontWeight':'bold',
+        'lineSpacing':27
+      }})
+  )
+  let cinfo=makeStyles(()=>({
+    typography: {
+        'fontFamily': 'Manrope',
+        'color':'#000000',
+        "fontSize": 18,
+        'letterSpacing': -0.22,
+        'textAlign': `right`,
+        'fontWeight': `medium`,
+        'lineSpacing':27
+      }})
+  )
+
+  let opt=makeStyles(()=>({
+    typography: {
+        'fontFamily': 'Manrope',
+        'color':'#9784FF',
+        "fontSize": 14,
+        'letterSpacing': -0.17,
+        'textAlign': `right`,
+        'fontWeight': `medium`,
+        'lineSpacing': 17
+      }})
+  )
 const App=()=>{
 
-    const classes = useStyles();
-    const classes2 = useStyles2();
-    const classes3 =useStyles3();
-
+    const menu=menuTheme()
     const title=titleTheme()
     const catpersons=catPersons()
     const labels=myLabels()
-
-
+    const headq=hq()
+    const cont=cinfo()
+    const optional=opt()
         return (
             <>
             <CssBaseline />
@@ -99,22 +121,41 @@ const App=()=>{
             <AppBar position="static"  style={{ background: '#FFFFFF' }}  >
                 <Box sx={{mx: "120px"}}>
                     <Toolbar >
-                        <img src={logo}/>
-                        <Typography  className={classes.typography} color="white" align='right' gutterBottom>
-                            Adopt Kittens
-                        </Typography>
-                        <Typography  className={classes.typography} color="white" align='right' gutterBottom>
-                            Kitty Stories
-                        </Typography>
-                        <Typography  className={classes.typography} color="white" align='right' gutterBottom>
-                            About
-                        </Typography>
-                        <Typography  className={classes.typography} color="white" align='right' gutterBottom>
-                            About
-                        </Typography>
-                        <Typography className={classes.typography} color="white"  align='right' gutterBottom>
-                            Contact
-                        </Typography>
+                        <Grid container spacing={2}> 
+
+                            <Grid item xs={4}>
+                            <img src={logo}/>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Typography  className={menu.typography} align='right' gutterBottom>
+                                    Adopt Kittens
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={1}>
+                                <Typography  className={menu.typography} align='right' gutterBottom>
+                                    Kitty Stories
+                                </Typography>
+                            </Grid>
+
+                            <Grid item xs={1}>
+                                <Typography  className={menu.typography}  align='right' gutterBottom>
+                                    About
+                                </Typography>
+                            </Grid>
+
+                            <Grid item xs={1}>
+                                <Typography  className={menu.typography}  align='right' gutterBottom>
+                                    About
+                                </Typography>
+                            </Grid>
+
+                            <Grid item xs={1}>
+                                <Typography className={menu.typography}  align='right' gutterBottom>
+                                    Contact
+                                </Typography>
+                            </Grid>
+                          
+                        </Grid>
                     </Toolbar>
                 </Box>
             </AppBar>
@@ -196,8 +237,11 @@ const App=()=>{
                     </Grid>
 
                     
-                    <Grid item xs={12}  sx={{mt:'32px'}}>
+                    <Grid item xs={6}  sx={{mt:'32px'}}>
                         <Typography className={labels.typography}>Your Message</Typography>
+                    </Grid>
+                    <Grid item xs={6}  sx={{mt:'32px'}}>
+                        <Typography className={optional.typography}>Optional</Typography>
                     </Grid>
                     <Grid item xs={12} sx={{mt:'8px'}}>
                         <Box sx={{width:`476px`,height:`168px`}}>
@@ -231,9 +275,33 @@ const App=()=>{
                     </Grid>
                 </Grid>
 
-                <Grid item xs={5.5} bgcolor="#791010" >
-                    <Box sx={{mt:'160px',width:"476px",height:"416px"}} bgcolor="#fff" >
+                <Grid item container xs={5.5} display='flex' flexDirection='row-reverse' justifyContent="flex-end">
+                    <Grid item xs={ 12}>
+                        <Box sx={{mt:'160px',width:"476px",height:"416px"}} bgcolor="#791010"  >
+                        </Box>
+                    </Grid>
+                    <Grid item xs={ 12}>
+
+                    <Box sx={{mt:'45px'}} >
+                        <Typography className={headq.typography}>
+                            Headquarters
+                        </Typography >
                     </Box>
+                    </Grid>
+                    <Grid item xs={ 12}>
+
+                    <Box sx={{mt:'24px'}} >
+                        <Typography className={cont.typography}>
+                            Aristotelous 16, 54658 <br/>
+                            Thessaloniki, Greece <br/><br/><br/>
+                            
+                            +30 231 129 0998<br/>
+                            hey@smellycat.gr
+                        </Typography>
+                    </Box>
+                    </Grid>
+                    
+
                 </Grid>
             </Grid>
 
@@ -250,7 +318,7 @@ const App=()=>{
             {/* <Box  > */}
                 <AppBar position="relative" color="black" style={{ background: '#000000' }}>
                     <Toolbar variant="contained">
-                        <Box sx={{mx: "120px",height:'174px'}}>
+                        <Box sx={{mx: "120px",height:'174px'}} >
                             <img src={logobottom}/>
                         </Box>            
                     </Toolbar>
