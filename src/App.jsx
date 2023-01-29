@@ -1,12 +1,16 @@
-import React from 'react'
-import {Typography, AppBar, Toolbar, Container, TextField, Paper,Item,Box,Divider,FormControl,
-    Card, CardActions, CardContent, CardMedia, CssBaseline, } from '@material-ui/core'
-    import { BottomNavigation } from '@material-ui/core';
-    import { BottomNavigationAction } from '@mui/material';
-    import Checkbox from '@mui/material/Checkbox';
-    import Button from '@mui/material/Button';
+import {Typography,TextField,Box,Divider } from '@material-ui/core'
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import CssBaseline from '@mui/material/CssBaseline';
+import Toolbar from '@mui/material/Toolbar';    
+
+import Checkbox from '@mui/material/Checkbox';
+import Button from '@mui/material/Button';
 import logo from './SmellyLogo.png'
 import logobottom from './logoBottom.png'
+import discord from './discord.png'
+import insta from './insta.png'
+import tweet from './tweet.png'
 import './index.css'
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@mui/material/Grid';
@@ -23,39 +27,71 @@ import { createTheme ,ThemeProvider} from '@mui/material/styles';
     }
   });
 
-  let titleTheme=makeStyles(()=>({
+  let titleTheme=makeStyles( theme=>({
     typography: {
         'fontFamily': 'Manrope',
         'color':'#000000',
-        "fontSize": 40,
+        // "fontSize": 40,
         'letterSpacing': -0.5,
-        'textAlign': `left`,
+        
         'fontWeight':900,
         'lineSpacing':48,
+        [theme.breakpoints.down('sm')]: {
+            textAlign: 'center',
+            'fontSize':20
+          },
+        [theme.breakpoints.up('md')]: {
+            textAlign: 'left',
+            fontSize:40
+          }
       }})
   )
-  let menuTheme=makeStyles(()=>({
+  let menuTheme=makeStyles((theme)=>({
     typography: {
-        'fontFamily': 'Manrope-ExtraLight',
+        'fontFamily': 'Manrope',
         'color':'#555555',
         "fontSize": 14,
         'letterSpacing': -0.5,
-        'textAlign': `right`,
         'fontWeight':'bold',
         'lineSpacing': 22.5,
-      }})
+        'textTransform':'none'
+      },
+    footer:{
+        'fontFamily': 'Manrope',
+        'color':'#fff',
+        "fontSize": 14,
+        'letterSpacing': -0.17,
+        'fontWeight':'medium',
+        'lineSpacing': 22.5,
+        'textTransform':'none'
+    },
+    copyright:{
+        'fontFamily': 'Manrope',
+        'color':'#fff',
+        "fontSize": 12,
+        'letterSpacing': -0.15,
+        'fontWeight':50,
+        'lineSpacing': 22.5,
+        'textTransform':'none'
+    }
+    })
   )
-  let catPersons=makeStyles(()=>({
+  let catPersons=makeStyles((theme)=>({
     typography: {
         'fontFamily': 'Manrope-SemiBold',
         'color':'#000000',
-        "fontSize": 18,
         'letterSpacing': -0.22,
-        'textAlign': `left`,
         'fontWeight':'bold',
         'lineSpacing':27,
-        'lineHeight':`27px`
-
+        'lineHeight':`27px`,
+        [theme.breakpoints.down('md')]: {
+            textAlign: 'center',
+            fontSize:10
+          },
+        [theme.breakpoints.up('md')]: {
+            textAlign: 'left',
+            fontSize:18
+        }
       }})
   )
 
@@ -146,7 +182,8 @@ import { createTheme ,ThemeProvider} from '@mui/material/styles';
       flexDirection: 'column',
       alignItems: 'stretch',
       minHeight: '100vh',
-      justifyContent:'space-between'
+      justifyContent:'space-between',
+      alignContent:'center'
     },
     main: {
       flex: '1',
@@ -157,6 +194,8 @@ import { createTheme ,ThemeProvider} from '@mui/material/styles';
       marginBottom: 0
     },
   });
+
+
 
 const App=()=>{
 
@@ -172,227 +211,210 @@ const App=()=>{
     const plctext=placeholdertext()
     const prpstyle=zStyles()
         return (
-            <>
-            <CssBaseline />
-<div mainLayout={ml.root}>
-{/* <Box sx={{ display: 'flex',flexDirection:'column' }}> */}
-<Box sx={{height:'100vh'}}>
-    
 
-            <AppBar position="static"  style={{ background: '#FFFFFF' }}  >
-                <Box sx={{mx: "120px",height:48}}>
-                    <Toolbar >
-                        <Grid container spacing={2}> 
+<Box sx={{display:'flex',justifyContent: 'column',flexDirection:'column',flexWrap: 'wrap',background: '#000000',overflow: 'hidden',maxWidth: '100%'}} >
 
-                            <Grid item xs={4}>
-                            <img src={logo}/>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Typography  className={menu.typography} align='right' gutterBottom>
-                                    Adopt Kittens
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={1}>
-                                <Typography  className={menu.typography} align='right' gutterBottom>
-                                    Kitty Stories
-                                </Typography>
-                            </Grid>
 
-                            <Grid item xs={1}>
-                                <Typography  className={menu.typography}  align='right' gutterBottom>
-                                    About
-                                </Typography>
-                            </Grid>
-
-                            <Grid item xs={1}>
-                                <Typography  className={menu.typography}  align='right' gutterBottom>
-                                    About
-                                </Typography>
-                            </Grid>
-
-                            <Grid item xs={1}>
-                                <Typography className={menu.typography}  align='right' gutterBottom>
-                                    Contact
-                                </Typography>
-                            </Grid>
-                          
-                        </Grid>
-                    </Toolbar>
-                </Box>
+            {/* {HEADER} */}
+            <AppBar position="relative"  style={{ boxShadow: '0px 2px #A0A9BA', background: '#FFFFFF' , height:'3.43%',padding: "0 8.33%"}} elevation={5}  >
+                <Toolbar display="flex" sx={{alignContent:'center',display:'flex',justifyContent:'flex-end',flexWrap: 'wrap', flexDirection:{xs:'column',md:'row'} }}>
+                    <img src={logo}  style={{ marginRight: 'auto'}}/>
+                        {['Adopt Kittens','Kitty Stories','About us','Blog','Contact'].map(s=>
+                            <Button style={{ minWidth: "fit-content",marginLeft:'4%'}} variant="text">
+                                <Typography  className={menu.typography} gutterBottom >{s}</Typography>
+                            </Button>
+                        )}
+                </Toolbar>
             </AppBar>
 
-
-
-                        
-
-
-
-    <Box  sx={{ minHeight: "80vh",mx:"120px" }} className={ml.main}>
-            <Grid container spacing={2}> 
-                <Grid container item  xs={6.5}>{/*out of 12*/} 
-
-                    <Grid item xs={12}>
-                        <Box sx={{mt:'80px',width:'213px',height:'55px'}}>
-                            <Typography  className={title.typography}  >
-                                Contact us
-                            </Typography>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={12} sx={{mt:'24px'}}>
-                        <Box sx={{width:'476px',height:'56px'}} >
-                            <Typography className={catpersons.typography}  >
-                            We are all cat persons, so if you got any question, drop it below and we will contact you back!
-                            </Typography>
-                        </Box>
-                    </Grid>
-
-                    <Grid item xs={3}  sx={{mt:'51px'}}>
-                        <Typography className={labels.typography}>Your Full Name</Typography>
-                    </Grid>   
-
-                    <Grid item xs={9}  className={alignright.container} sx={{mt:'40px'}}>
-                        <Box >
-                            <TextField InputLabelProps={{className: plctext.typography,  style: { marginBottom: '50 !important' }}} InputProps={{style: { width:'357px',height: `40px`,backgroundColor:'#fff' }}}  id="outlined-basic" label="Type your name" variant="outlined" fullWidth />
-                        </Box>
-                    </Grid>
-
-                    <Grid item xs={3} sx={{mt:'51px'}}>
-                        <Typography className={labels.typography}>Your Email</Typography>
-                    </Grid>
-
-                    <Grid item xs={9}  className={alignright.container} sx={{mt:'40px'}}>
-                        <Box >
-                        <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{ style: { width:'357px',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="Type your email" variant="outlined" fullWidth/>
-                        </Box>
-                    </Grid>
-
-
-
-
-                    <Grid item xs={12}  sx={{mt:'52px'}}>
-                        <Divider/>
-                    </Grid>
-
+          
 
                 
+            <Box  sx={{ minHeight: "80vh",  padding: "0 8.33%",backgroundColor:'#EFF1F4',  flexDirection:{xs:'column',md:'row'}  }} className={ml.main}>
+                <Grid container spacing={12}> 
+                    <Grid container item  sm={12} lg={6} maxWidth='18rem'>{/*out of 12*/} 
+
+                        <Grid item sm={12}>
+                                <Typography  className={title.typography}  >
+                                    Contact us
+                                </Typography>
+                        </Grid>
+
+                        <Grid item sm={12} sx={{mt:'24px'}}>
+                                <Typography className={catpersons.typography}  >
+                                    We are all cat persons, so if you got any question, drop it below and we will contact you back!
+                                </Typography>
+                        </Grid>
+
+                        <Grid item xs={12} sm={12} md={3}   sx={{mt:'51px'}}>
+                            <Typography className={labels.typography}>Your Full Name</Typography>
+                        </Grid>   
+
+                        <Grid item xs={9}  className={alignright.container} sx={{mt:'40px'}}>
+                            <Box >
+                                <TextField InputLabelProps={{className: plctext.typography,  style: { marginBottom: '50 !important' }}} InputProps={{style: { width:'357px',height: `40px`,backgroundColor:'#fff' }}}  id="outlined-basic" label="Type your name" variant="outlined" fullwidth />
+                            </Box>
+                        </Grid>
+
+                        <Grid item xs={3} sx={{mt:'51px'}}>
+                            <Typography className={labels.typography}>Your Email</Typography>
+                        </Grid>
+
+                        <Grid item xs={9}  className={alignright.container} sx={{mt:'40px'}}>
+                            <Box >
+                            <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{ style: { width:'357px',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="Type your email" variant="outlined" fullwidth/>
+                            </Box>
+                        </Grid>
 
 
-                    <Grid item xs={6}  sx={{mt:'40px'}}>
-                        <Typography className={labels.typography}>City</Typography>
-                    </Grid>
-                    <Grid item xs={6}  className={alignright.container} sx={{mt:'40px'}}>
-                        <Typography className={labels.typography}>Postal Code</Typography>
-                    </Grid>
 
-                    <Grid item xs={6} sx={{mt:'8px'}}>
-                        <Box>
-                        <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{className:prpstyle.input, style: { width:'172px',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="ex. Thessaloniki" variant="outlined" fullWidth />
-                        </Box>
-                    </Grid>
-                    <Grid item xs={6}  className={alignright.container} sx={{mt:'8px'}}>
-                        <Box sx={{width:122,height:40}}>
-                            <TextField  InputLabelProps={{className: plctext.typography}}InputProps={{style: { width:'122px',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="ex. 54658" variant="outlined" fullWidth />
-                        </Box>
-                    </Grid>
 
-                    <Grid item xs={12}  sx={{mt:'32px'}}>
-                        <Typography className={labels.typography}>Address</Typography>
-                    </Grid>
-                    <Grid item xs={12} sx={{mt:'8px'}}>
-                        <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{style: { width:'288px',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="ex. Thessaloniki" variant="outlined" fullWidth />
-                    </Grid>
+                        <Grid item xs={12}  sx={{mt:'52px'}}>
+                            <Divider/>
+                        </Grid>
+
 
                     
-                    <Grid item xs={6}  sx={{mt:'32px'}}>
-                        <Typography className={labels.typography}>Your Message</Typography>
-                    </Grid>
-                    <Grid item xs={6}  sx={{mt:'32px'}}>
-                        <Typography className={optional.typography}>Optional</Typography>
-                    </Grid>
-                    <Grid item xs={12} sx={{mt:'8px'}}>
-                        <Box sx={{width:`476px`,height:`168px`}}>
-                            <TextField   InputLabelProps={{className: plctext.typography}} InputProps={{style: { borderRadius:'5px',width:'476px',height: `168px`,backgroundColor:'#fff'}}}  minRows={5} maxRows={5} id="outlined-multiline-flexible" label="Type your message" variant="outlined" fullWidth multiline />
-                        </Box>
+
+
+                        <Grid item xs={6}  sx={{mt:'40px'}}>
+                            <Typography className={labels.typography}>City</Typography>
+                        </Grid>
+                        <Grid item xs={6}  className={alignright.container} sx={{mt:'40px'}}>
+                            <Typography className={labels.typography}>Postal Code</Typography>
+                        </Grid>
+
+                        <Grid item xs={6} sx={{mt:'8px'}}>
+                            <Box>
+                            <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{className:prpstyle.input, style: { width:'172px',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="ex. Thessaloniki" variant="outlined" fullwidth />
+                            </Box>
+                        </Grid>
+                        <Grid item xs={6}  className={alignright.container} sx={{mt:'8px'}}>
+                            <Box sx={{width:122,height:40}}>
+                                <TextField  InputLabelProps={{className: plctext.typography}}InputProps={{style: { width:'122px',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="ex. 54658" variant="outlined" fullwidth />
+                            </Box>
+                        </Grid>
+
+                        <Grid item xs={12}  sx={{mt:'32px'}}>
+                            <Typography className={labels.typography}>Address</Typography>
+                        </Grid>
+                        <Grid item xs={12} sx={{mt:'8px'}}>
+                            <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{style: { width:'288px',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="ex. Thessaloniki" variant="outlined" fullwidth />
+                        </Grid>
+
                         
+                        <Grid item xs={6}  sx={{mt:'32px'}}>
+                            <Typography className={labels.typography}>Your Message</Typography>
+                        </Grid>
+                        <Grid item xs={6}  sx={{mt:'32px'}}>
+                            <Typography className={optional.typography}>Optional</Typography>
+                        </Grid>
+                        <Grid item xs={12} sx={{mt:'8px'}}>
+                            <Box sx={{width:`476px`,height:`168px`}}>
+                                <TextField   InputLabelProps={{className: plctext.typography}} InputProps={{style: { borderRadius:'5px',width:'476px',height: `168px`,backgroundColor:'#fff'}}}  minRows={5} maxRows={5} id="outlined-multiline-flexible" label="Type your message" variant="outlined" fullwidth multiline />
+                            </Box>
+                            
+                        </Grid>
+                        
+
+
+
+
+                        <Grid item xs={0.7} sx={{mt:'15px'}}>
+                            <Checkbox  />
+                        </Grid>
+
+                        <Grid item xs={11} sx={{mt:'26px'}}>
+                            <Typography>
+                            I agree with the Terms & Conditions
+                            </Typography>   
+                        </Grid>
+
+                        {/* SUBMIT BUTTON */}
+                        <Grid item xs={12} sx={{mt:'46px'}}>
+                        <ThemeProvider theme={btheme}>
+                            <Button   variant="contained" sx={{ textTransform: 'none',mb:"5%"}} style={{  width: 169,height: 48,  borderRadius:5 }}>
+                                <Typography gutterBottom>
+                                    Send!
+                                </Typography>
+                            </Button>
+                        </ThemeProvider>
+                        </Grid>
                     </Grid>
+
+                    <Grid item  container xs={6}>
+                        <Grid item   className={alignright.container}  xs={ 12}>
+                            <Box   sx={{mt:'160px',width:"476px",height:"416px"}} bgcolor="#791010" fullwidth >
+                            </Box>
+                        </Grid>
+                        <Grid item xs={ 12}>
+                            <Box>
+                                <Typography className={headq.typography}>
+                                    Headquarters
+                                </Typography >
+                            </Box>
+                            <Box>
+                                <Typography className={cont.typography}>
+                                    Aristotelous 16, 54658 <br/>
+                                    Thessaloniki, Greece <br/><br/>
+                                    
+                                    +30 231 129 0998<br/>
+                                    hey@smellycat.gr
+                                </Typography>
+                            </Box>
+                        </Grid>
+                    </Grid>
+
+
+                </Grid>
+            </Box>
+
+    
+            {/* {FOOTER} */}
+            <AppBar position="relative"  style={{ boxShadow: '0px 2px #A0A9BA', background: '#000000' , padding: "0 8.33%"}} elevation={5}  >
+                <Toolbar sx={{height:'12.43rem',display:'flex',justifyContent:'center',flexWrap: 'wrap', flexDirection:{xs:'column',md:'row'} }}>
+                    <Grid container sx={{display:'flex',justifyContent:'center',flexWrap: 'wrap', flexDirection:{xs:'column',md:'row'} }} >
+                        <Grid  item  xs={12}  md={4} sx={{mr:'auto'}}>
+                            <Button sx={{justifySelf:'flex-start'}}><img src={logobottom} /></Button>
+                        </Grid>
+                        <Grid  container item   xs={12} md={4} sx={{display:'flex',justifyContent:'center', mx:'auto',my:'auto',flexDirection:{xs:'column',md:'row'}}}>
+                            {['Privacy Policy','Terms & Conditions','Blog','Support'].map(s=>
+                                <Button style={{ minWidth: "fit-content",marginLeft:'4%'}} variant="text">
+                                    <Typography  className={menu.footer} gutterBottom >{s}</Typography>
+                                </Button>
+                            )}
+                        </Grid>
+                        <Grid   item  xs={12} md={1} sx={{ml:'auto',justifyContent:'flex-end'}} >
+                            <Button><img src={discord} /></Button>
+                        </Grid>
+
+                        <Grid  item  xs={12} md={1}>
+                            <Button><img src={tweet} /></Button>
+                        </Grid>
+
+                        <Grid  item  xs={12}  md={1}>
+                            <Button><img src={insta} style={{maxWidth: "fit-content"}} /></Button>
+                        </Grid>
+
+                        <Grid  container item  xs={12} md={12} sx={{justifyContent:'center',mx:'auto'}}>
+                            <Typography  className={menu.copyright} >'Copyright © SmellyCat 2020'</Typography>
+                        </Grid>
+
+
+                    </Grid>
+                </Toolbar>
+            </AppBar>
                     
-
-
-
-
-                    <Grid item xs={0.7} sx={{mt:'15px'}}>
-                        <Checkbox  />
-                    </Grid>
-
-                    <Grid item xs={11} sx={{mt:'26px'}}>
-                        <Typography>
-                        I agree with the Terms & Conditions
-                        </Typography>   
-                    </Grid>
-
-                    {/* SUBMIT BUTTON */}
-                    <Grid item xs={12} sx={{mt:'46px'}}>
-                    <ThemeProvider theme={btheme}>
-                        <Button   variant="contained" sx={{ textTransform: 'none',mb:"5%"}} style={{  width: 169,height: 48,  borderRadius:5 }}>
-                            <Typography gutterBottom>
-                                Send!
-                            </Typography>
-                        </Button>
-                    </ThemeProvider>
-                    </Grid>
-                </Grid>
-
-                <Grid item  container xs={5.5}>
-                    <Grid item   className={alignright.container}  xs={ 12}>
-                        <Box   sx={{mt:'160px',width:"476px",height:"416px"}} bgcolor="#791010" fullWidth >
-                        </Box>
-                    </Grid>
-                    <Grid item xs={ 12}>
-                        <Box>
-                            <Typography className={headq.typography}>
-                                Headquarters
-                            </Typography >
-                        </Box>
-                        <Box>
-                            <Typography className={cont.typography}>
-                                Aristotelous 16, 54658 <br/>
-                                Thessaloniki, Greece <br/><br/>
-                                
-                                +30 231 129 0998<br/>
-                                hey@smellycat.gr
-                            </Typography>
-                        </Box>
-                    </Grid>
-                </Grid>
-
-
-            </Grid>
-
+                    
+                    
+</Box> 
             
-      
-
-        </Box>
-
- 
-        {/* FOOTER */}
-        
-      
-       
-      
-</Box>
-<AppBar  position="relative"  style={{ bottom:0,background: '#000000' }} fullWidth>
-                    <Toolbar >
-                    <Box sx={{mx: "120px",height:150, mb:'0px',mt:'10px',flexDirection: 'column'}}>
-                            <img src={logobottom}/>
-                        </Box>            
-                    </Toolbar>
-                </AppBar> 
-
-
-</div>
-              
-            </>
           );
 }
+
+
+
+
+
 
 export default App;

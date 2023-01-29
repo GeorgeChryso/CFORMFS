@@ -1,24 +1,2 @@
 @import url("https://fonts.googleapis.com/css2?family=Amatic+SC&family=Manrope&display=swap");
 
-.label {
-    color: #000000;
-    font-family: Manrope-SemiBold;
-    font-size: 14px;
-    letter-spacing: -0.17px;
-    line-height: 17px;
-    text-align: left;
-  }
-
-  .title {
-    color: #000000;
-    font-family: Manrope-ExtraBold;
-    font-size: 40px;
-    letter-spacing: -0.5px;
-    line-height: 48px;
-    text-align: left;
-  }
-  .rectangle {
-    border-radius: 5px;
-    width: 357px;
-    height: 40px;
-  }
