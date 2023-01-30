@@ -15,6 +15,8 @@ import './index.css'
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@mui/material/Grid';
 
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 
 
   let titleTheme=makeStyles( theme=>({
@@ -26,7 +28,7 @@ import Grid from '@mui/material/Grid';
             textAlign: 'center',
             lineSpacing:0,
             letterSpacing:0,
-            'fontSize':20
+            'fontSize':40
           },
         [theme.breakpoints.up('md')]: {
             textAlign: 'left',
@@ -77,7 +79,7 @@ import Grid from '@mui/material/Grid';
         'lineHeight':`27px`,
         [theme.breakpoints.down('md')]: {
             textAlign: 'center',
-            fontSize:10
+            fontSize:18
           },
         [theme.breakpoints.up('md')]: {
             textAlign: 'left',
@@ -88,14 +90,14 @@ import Grid from '@mui/material/Grid';
 
   let myLabels=makeStyles((theme)=>({
     typography: {
-        'fontFamily': 'Manrope-SemiBold',
+        'fontFamily': 'Manrope',
         'color':'#000000',
         'letterSpacing': -0.17,
-        'fontWeight':'bold',
+        'fontWeight':600,
         'lineSpacing':17,
         [theme.breakpoints.down('md')]: {
             textAlign: 'center',
-            fontSize:10
+            fontSize:14
           },
         [theme.breakpoints.up('md')]: {
             textAlign: 'left',
@@ -146,7 +148,10 @@ import Grid from '@mui/material/Grid';
         'letterSpacing': -0.23,
         'textAlign':'center',
         'fontWeight': `medium`,
-        'lineSpacing': 17, 
+        'lineSpacing': 17,
+        'alignContent':'center',
+        'alignItems':'center'
+
       },
     send:{
         'fontFamily': 'Manrope',
@@ -175,14 +180,20 @@ import Grid from '@mui/material/Grid';
       alignItems: 'stretch',
       minHeight: '100vh',
       justifyContent:'space-between',
-      alignContent:'center'
+      alignContent:'center',
+      flex: '1',
+      flexGrow:'1',
+      flexShrink:'1'
     },
     main: {
-      flex: '1',
+       flex: '1',
+       flexGrow:'1',
+       flexShrink:'1'
     },
     footer: {
-      flex: '1',
-      //position:'absolute',
+        flex: '1',
+        flexGrow:'1',
+        flexShrink:'1',
       marginBottom: 0
     },
   });
@@ -203,31 +214,30 @@ const App=()=>{
     const plctext=placeholdertext()
 
         return (
-
-<Box sx={{display:'flex',justifyContent: 'column',flexDirection:'column',flexWrap: 'wrap',background: '#000000',overflow: 'hidden',maxWidth: '100%'}} >
-
+<Box sx={{width:'100%',display:'flex',justifyContent: 'column',flexDirection:'column',flexWrap: 'wrap',background: '#000000',overflow: 'hidden',minWidth: '0',flexGrow:'1'}} >
+            
 
             {/* {HEADER} */}
             <AppBar position="relative"  style={{ boxShadow: '0px 2px #A0A9BA', background: '#FFFFFF' , height:'3.43%',padding: "0 8.33%"}} elevation={5}  >
-                <Toolbar display="flex" sx={{alignContent:'center',display:'flex',justifyContent:'flex-end',flexWrap: 'wrap', flexDirection:{xs:'column',md:'row'} }}>
-                    <img src={logo}  style={{ marginRight: 'auto'}}/>
+                <Toolbar display="flex" sx={{alignContent:'center',display:'flex',justifyContent:'flex-end',flexWrap: 'wrap', flexDirection:{xs:'row',sm:'row'} }}>
+                    <img src={logo}  style={{ marginRight: 'auto',display:'block'}}/>
+                    <IconButton color="#555555" sx={{backgroundColor:'#fff',display:{md:'none',sm:'block'}}}><MenuIcon /></IconButton>
+
                     {['Adopt Kittens','Kitty Stories','About us','Blog','Contact'].map(s=>
-                        <Button style={{ minWidth: "fit-content",marginLeft:'4%'}} variant="text">
+                        <Button sx={{ minWidth: "fit-content",ml:'4%',display:{xs:'none',sm:'none',md:'flex'}}} variant="text">
                             <Typography  className={menu.typography} gutterBottom >{s}</Typography>
                         </Button>
                     )}
                 </Toolbar>
             </AppBar>
 
-          
-
             {/* BODY */}
-            <Box  sx={{ minHeight: "80vh",  padding: "0 8.33%",backgroundColor:'#EFF1F4',  flexDirection:{xs:'column',md:'row'}  }} className={ml.main}>
-                <Grid container spacing={12}> 
+            <Box  sx={{width:'83.33%', minHeight: "80vh", minWidth:'0', padding: "0 8.33%",backgroundColor:'#EFF1F4',  display:'flex',flexDirection:{xs:'column',sm:'column',md:'row'},flexWrap: 'wrap'  }} className={ml.main} fullWidth>
+                <Grid container spacing={5}> 
                     {/* LEFT PART */}
-                    <Grid container item   xs={12} sm={12} md={6} lg={6} xl={6}>{/*out of 12*/} 
+                    <Grid  container item   xs={12} sm={12} md={6} lg={6} xl={6}>{/*out of 12*/} 
 
-                        <Grid item xs={12} sm={12} sx={{mt:'24px'}} >
+                        <Grid item xs={12} sm={12} sx={{mt:'24px',minWidth:'0',flexShrink:'1',flexGrow:'1'}} >
                             <Typography  className={title.typography}  >
                                 Contact us
                             </Typography>
@@ -239,17 +249,24 @@ const App=()=>{
                             </Typography>
                         </Grid>
 
-                        <Grid item xs={12} sm={12} className={alignright.container} sx={{mt:'51px'}}>
-                            <Typography className={labels.typography}>Your Full Name</Typography>
-                            <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{style: { width:'357px',height: `40px`,backgroundColor:'#fff' }}}  id="outlined-basic" label="Type your name" variant="outlined" fullwidth />
+                        <Grid item container xs={12} sm={12} className={alignright.container} sx={{mt:'51px'}}>
+                            <Grid item xs={12} sm={3} >
+                                <Typography  className={labels.typography}>Your Full Name</Typography>
+                            </Grid>
+                            <Grid item xs={12} sm={9} >
+                                <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{style: { height: `40px`,backgroundColor:'#fff' }}}  id="outlined-basic" label="Type your name" variant="outlined" fullWidth />
+                            </Grid>
                         </Grid>   
 
-                        
+                        <Grid item container xs={12} sm={12} className={alignright.container} sx={{mt:'51px'}}>
+                            <Grid item xs={12} sm={3} >
+                                <Typography  className={labels.typography}>Your Email</Typography>
+                            </Grid>
+                            <Grid item xs={12} sm={9} >
+                                <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{style: { height: `40px`,backgroundColor:'#fff' }}}  id="outlined-basic" label="Type your email" variant="outlined" fullWidth />
+                            </Grid>
+                        </Grid>   
 
-                        <Grid item xs={12}  sm={12} className={alignright.container} sx={{mt:'51px'}}>
-                            <Typography className={labels.typography}>Your Email</Typography>
-                            <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{ style: { width:'357px',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="Type your email" variant="outlined" fullwidth/>
-                        </Grid>
 
 
                         <Grid item xs={12}   sm={12} sx={{mt:'52px'}}>
@@ -259,14 +276,14 @@ const App=()=>{
 
                     
 
-                        <Grid container className={alignright.container}>
+                        <Grid container sm={12}>
                             <Grid item sm={12}  md={6}  sx={{mt:'40px'}}>
                                 <Typography className={labels.typography}>City</Typography>
                                 <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{style: { width:'172px',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="ex. Thessaloniki" variant="outlined" fullwidth />
                             </Grid>
-                            <Grid item sm={12}  md={6}   sx={{mt:'40px'}}>
+                            <Grid container sm={12}  md={6}   sx={{mt:'40px',display:'flex',flexWrap: 'wrap',justifyContent: 'flex-end',flexDirection:'column'}}>
                                 <Typography className={labels.typography}>Postal Code</Typography>
-                                <TextField  InputLabelProps={{className: plctext.typography}}InputProps={{style: { width:'122px',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="ex. 54658" variant="outlined" fullwidth />
+                                <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{style: {justifySelf:'right',width:'100%',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="ex. 54658" variant="outlined" fullWidth />
                             </Grid>
                         </Grid>
                        
@@ -287,25 +304,19 @@ const App=()=>{
                             <Typography className={optional.typography}>Optional</Typography>
                         </Grid>
                         
-                        <Grid item xs={12} sx={{mt:'8px'}}>
-                            <Box sx={{width:`476px`,height:`168px`}}>
-                                <TextField   InputLabelProps={{className: plctext.typography}} InputProps={{style: { borderRadius:'5px',width:'476px',height: `168px`,backgroundColor:'#fff'}}}  minRows={5} maxRows={5} id="outlined-multiline-flexible" label="Type your message" variant="outlined" fullwidth multiline />
-                            </Box>
+                        <Grid container md={12} sx={{mt:'8px'}}>                                          
+                            <TextField   InputLabelProps={{className: plctext.typography}} InputProps={{style: { borderRadius:'5px',width:'100%',height: `168px`,backgroundColor:'#fff'}}}  minRows={5} maxRows={5} id="outlined-multiline-flexible" label="Type your message" variant="outlined" fullWidth multiline />                            
+                        </Grid>
                             
-                        </Grid>
-                        
+           
 
 
 
 
-                        <Grid item xs={0.7} sx={{mt:'15px'}}>
-                            <Checkbox  />
-                        </Grid>
 
-                        <Grid item xs={11} sx={{mt:'26px'}}>
-                            <Typography>
-                            I agree with the Terms & Conditions
-                            </Typography>   
+                        <Grid item xs={12} sx={{mt:'26px',display:'flex',justifyContent:'flex-start',flexDirection:'row'}}>
+                            <Checkbox sx={{mt:'-2%'}} />
+                            <Typography>I agree with the Terms & Conditions </Typography>   
                         </Grid>
 
                         {/* SUBMIT BUTTON */}
@@ -321,7 +332,7 @@ const App=()=>{
                     {/* RIGHT PART */}
                     <Grid item  container xs={12} sm={12} md={6}>
                         <Grid item  sx={{display:'flex',justifyContent:'flex-end'}} xs={ 12}>
-                            <Box   sx={{mt:'160px',width:"476px",height:"416px",backgroundColor:'#791010'}}  >
+                            <Box   sx={{mt:'100px',width:"476px",height:"416px",backgroundColor:'#791010'}}  >
                             </Box>
                         </Grid>
                         <Grid item xs={ 12}>
