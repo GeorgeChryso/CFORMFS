@@ -31,7 +31,7 @@ import Pets from '@mui/icons-material/Pets';
     typography: {
         'fontFamily': 'Manrope',
         'color':'#000000',        
-        'fontWeight':900,
+        'fontWeight':1000,
         [theme.breakpoints.down('sm')]: {
             textAlign: 'center',
             lineSpacing:0,
@@ -43,7 +43,6 @@ import Pets from '@mui/icons-material/Pets';
             fontSize:40,
             'lineSpacing':48,
             'letterSpacing': -0.5,
-
           }
       }})
   )
@@ -55,7 +54,8 @@ import Pets from '@mui/icons-material/Pets';
         'letterSpacing': -0.5,
         'fontWeight':'bold',
         'lineSpacing': 22.5,
-        'textTransform':'none'
+        'textTransform':'none',
+        textAlign:'center'
       },
     footer:{
         'fontFamily': 'Manrope',
@@ -64,7 +64,9 @@ import Pets from '@mui/icons-material/Pets';
         'letterSpacing': -0.17,
         'fontWeight':'medium',
         'lineSpacing': 22.5,
-        'textTransform':'none'
+        'textTransform':'none',
+        alignContent:'center',
+        'textAlign':'center'
     },
     copyright:{
         'fontFamily': 'Manrope',
@@ -73,7 +75,7 @@ import Pets from '@mui/icons-material/Pets';
         'letterSpacing': -0.15,
         'fontWeight':50,
         'lineSpacing': 22.5,
-        'textTransform':'none'
+        'textTransform':'none',
     }
     })
   )
@@ -114,26 +116,36 @@ import Pets from '@mui/icons-material/Pets';
       }})
   )
 
-  let hq=makeStyles(()=>({
+  let hq=makeStyles((theme)=>({
     typography: {
         'fontFamily': 'Manrope',
         'color':'#000000',
         "fontSize": 24,
         'letterSpacing': -0.3,
-        'textAlign': `right`,
         'fontWeight':'bold',
-        'lineSpacing':27
+        'lineSpacing':27,  
+        [theme.breakpoints.down('md')]: {
+            textAlign: 'center'
+          },
+        [theme.breakpoints.up('md')]: {
+            textAlign: 'right'
+        }
       }})
   )
-  let cinfo=makeStyles(()=>({
+  let cinfo=makeStyles((theme)=>({
     typography: {
         'fontFamily': 'Manrope',
         'color':'#000000',
         "fontSize": 18,
         'letterSpacing': -0.22,
-        'textAlign': `right`,
         'fontWeight': `medium`,
-        'lineSpacing':27
+        'lineSpacing':27,
+        [theme.breakpoints.down('md')]: {
+            textAlign: 'center'
+          },
+        [theme.breakpoints.up('md')]: {
+            textAlign: 'right'
+        }
       }})
   )
 
@@ -209,7 +221,17 @@ import Pets from '@mui/icons-material/Pets';
 
 
 const App=()=>{
-    const [state, setState] = React.useState({top:false,bottom:false})
+    const [state, setState] = React.useState(
+        {
+            top:false,
+            bottom:false,
+            // fullName:'',
+            email:'',
+            city:'',
+            postalCode:'',
+            adress:'',
+            message:''
+        })
     const toggleDrawer = (anchor, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
           return;
@@ -220,9 +242,9 @@ const App=()=>{
     
     const list = (anchor) => (
         <Box sx={{ width: 'auto' }}  role="presentation"onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
-          <List>
+          <List >
             {['Adopt Kittens','Kitty Stories','About us','Blog','Contact'].map((text, index) => (
-              <ListItem key={text} disablePadding>
+              <ListItem key={text} disablePadding >
                 <ListItemButton>
                   <ListItemIcon>
                     <Pets/>
@@ -247,6 +269,9 @@ const App=()=>{
     const alignright=alright()
     const plctext=placeholdertext()
 
+
+
+    
         return (
 <Box sx={{width:'100%',display:'flex',justifyContent: 'column',flexDirection:'column',flexWrap: 'wrap',background: '#000000',overflow: 'hidden',minWidth: '0',flexGrow:'1'}} >
             
@@ -295,7 +320,7 @@ const App=()=>{
                                 <Typography  className={labels.typography}>Your Full Name</Typography>
                             </Grid>
                             <Grid item xs={12} sm={9} >
-                                <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{style: { height: `40px`,backgroundColor:'#fff' }}}  id="outlined-basic" label="Type your name" variant="outlined" fullWidth />
+                                <TextField onChange={event => this.setState({ fullName: event.target.value })} InputLabelProps={{className: plctext.typography}} InputProps={{style: { height: `40px`,backgroundColor:'#fff' }}}   id="outlined-error-helper-text" error={state.fullName===''} helperText="A Full name is required" label="Type your name" variant="outlined" fullWidth />
                             </Grid>
                         </Grid>   
 
@@ -368,16 +393,16 @@ const App=()=>{
                             </Button>
                         </Grid>
                     </Grid>
-                    
                     {/* RIGHT PART */}
                     <Grid item  container xs={12} sm={12} md={6} spacing={1} sx={{height:'fit-content'}}>
                         <Grid item   sx={{display:'flex',justifyContent:{sm:'center',md:'flex-end'},height:'fit-content'}} xs={ 12}>
                             <Box   sx={{mt:'100px',width:"476px",height:"416px",backgroundColor:'#791010'}}  >
+                                <iframe width="100%" height="100%" id="gmap_canvas" src="https://maps.google.com/maps?q=Aristotelous%2016,%2054658&t=&z=14&ie=UTF8&iwloc=&output=embed" frameborder="0" marginheight="0" marginwidth="0"></iframe>
                             </Box>
                         </Grid>
                         
-                        <Grid item xs={ 12} sx={{width:'fit-content',justifyContent:{sm:'center',md:'flex-end'}}}>
-                              <Typography className={headq.typography} >
+                        <Grid item xs={ 12} sx={{minWidth:'fit-content',justifyContent:{sm:'center',md:'flex-end'}}}>
+                            <Typography className={headq.typography} >
                                     Headquarters
                             </Typography >
                         
@@ -393,32 +418,30 @@ const App=()=>{
 
     
             {/* {FOOTER} */}
-            <AppBar position="relative"  style={{ boxShadow: '0px 2px #A0A9BA', background: '#000000' , padding: "0 8.33%"}} elevation={5}  >
-                <Toolbar sx={{height:'12.43rem',display:'flex',justifyContent:'center',flexWrap: 'wrap', flexDirection:{xs:'column',md:'row'} }}>
-                    <Grid container sx={{display:'flex',justifyContent:'space-between',flexWrap: 'wrap', flexDirection:{xs:'column',md:'row'} }} >
-                        <Grid  item  xs={12}  md={4} sx={{mr:'auto'}}>
-                            <Button sx={{justifySelf:'flex-start'}}><img src={logobottom} /></Button>
+            <AppBar position="relative"  sx={{background: '#000000' , padding: "0 8.33%", height:{ sm:'fit-content',md:'12.5vh'},display:'flex',alignContent:'center',flexGrow:1}}   >
+                <Toolbar sx={{height:'100%'}} >
+                    <Grid container sx={{display:'flex',justifyContent: {sm:'center',md:'space-between'},flexWrap: 'wrap', flexDirection:{xs:'column',md:'row'} }} >
+                        <Grid  item  xs={12}  md={3} sx={{display:'flex',justifyContent:{md:'flex-start',xs:'center'}}} >
+                            <Button><img src={logobottom}  /></Button>
                         </Grid>
-                        <Grid  container item   xs={12} md={4} sx={{display:'flex',justifyContent:'center', mx:'auto',my:'auto',flexDirection:{xs:'column',md:'row'}}}>
+                        <Grid  container item   xs={12} md={6} sx={{display:'flex',justifyContent:'center', mx:'auto',my:'auto',flexDirection:{xs:'column',md:'row'}}}>
                             {['Privacy Policy','Terms & Conditions','Blog','Support'].map(s=>
-                                <Button style={{ minWidth: "fit-content",marginLeft:'4%'}} variant="text">
+                                <Button style={{marginLeft:'4%'}} variant="text">
                                     <Typography  className={menu.footer} gutterBottom >{s}</Typography>
                                 </Button>
                             )}
                         </Grid>
-                        <Grid  item  xs={12} md={4} sx={{ml:'auto',display:'flex',justifyContent:'flex-end'}} >
+                        <Grid  item  xs={12} md={3} sx={{display:'flex',justifyContent:{md:'flex-end',xs:'center'}}} >
                             <Button><img src={discord} /></Button>
                             <Button><img src={tweet} /></Button>
                             <Button><img src={insta} style={{maxWidth: "fit-content"}} /></Button>
                         </Grid>
-
-                        <Grid  container item  xs={12} md={12} sx={{justifyContent:'center',mx:'auto'}}>
-                            <Typography  className={menu.copyright} >'Copyright © SmellyCat 2020'</Typography>
-                        </Grid>
-
-
                     </Grid>
                 </Toolbar>
+                <Box sx={{height:'32px',display:'flex',justifyContent:'center'}} >
+                    <Typography  className={menu.copyright} >Copyright © SmellyCat 2020</Typography>
+                </Box>
+
             </AppBar>
                     
                     
