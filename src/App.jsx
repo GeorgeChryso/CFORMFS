@@ -19,6 +19,14 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
 
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Pets from '@mui/icons-material/Pets';
+
   let titleTheme=makeStyles( theme=>({
     typography: {
         'fontFamily': 'Manrope',
@@ -201,7 +209,33 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 
 const App=()=>{
-
+    const [state, setState] = React.useState({top:false,bottom:false})
+    const toggleDrawer = (anchor, open) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+          return;
+        }
+    
+        setState({ ...state, [anchor]: open });
+      };
+    
+    const list = (anchor) => (
+        <Box sx={{ width: 'auto' }}  role="presentation"onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
+          <List>
+            {['Adopt Kittens','Kitty Stories','About us','Blog','Contact'].map((text, index) => (
+              <ListItem key={text} disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <Pets/>
+                  </ListItemIcon>
+                  <ListItemText primary={<Typography className={menu.typography}>{text}</Typography>} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+    );
+    
+      
     const ml=mainLayout()
     const menu=menuTheme()
     const title=titleTheme()
@@ -221,7 +255,14 @@ const App=()=>{
             <AppBar position="relative"  style={{ boxShadow: '0px 2px #A0A9BA', background: '#FFFFFF' , height:'3.43%',padding: "0 8.33%"}} elevation={5}  >
                 <Toolbar display="flex" sx={{alignContent:'center',display:'flex',justifyContent:'flex-end',flexWrap: 'wrap', flexDirection:{xs:'row',sm:'row'} }}>
                     <img src={logo}  style={{ marginRight: 'auto',display:'block'}}/>
-                    <IconButton color="#555555" sx={{backgroundColor:'#fff',display:{md:'none',sm:'block'}}}><MenuIcon /></IconButton>
+
+                    <React.Fragment key={'top'}>
+                        <IconButton onClick={toggleDrawer('top', true)} color="#555555" sx={{backgroundColor:'#fff',display:{md:'none',sm:'block'}}}><MenuIcon /></IconButton>
+                        <Drawer anchor={'top'} open={state['top']}onClose={toggleDrawer('top', false)}>
+                            {list('top')}
+                        </Drawer>
+                    </React.Fragment>
+
 
                     {['Adopt Kittens','Kitty Stories','About us','Blog','Contact'].map(s=>
                         <Button sx={{ minWidth: "fit-content",ml:'4%',display:{xs:'none',sm:'none',md:'flex'}}} variant="text">
@@ -233,11 +274,11 @@ const App=()=>{
 
             {/* BODY */}
             <Box  sx={{width:'83.33%', minHeight: "80vh", minWidth:'0', padding: "0 8.33%",backgroundColor:'#EFF1F4',  display:'flex',flexDirection:{xs:'column',sm:'column',md:'row'},flexWrap: 'wrap'  }} className={ml.main} fullWidth>
-                <Grid container spacing={5}> 
+                <Grid container spacing={5} sx={{mt:'5.71%'}}> 
                     {/* LEFT PART */}
                     <Grid  container item   xs={12} sm={12} md={6} lg={6} xl={6}>{/*out of 12*/} 
 
-                        <Grid item xs={12} sm={12} sx={{mt:'24px',minWidth:'0',flexShrink:'1',flexGrow:'1'}} >
+                        <Grid item xs={12} sm={12} sx={{minWidth:'0',flexShrink:'1',flexGrow:'1'}} >
                             <Typography  className={title.typography}  >
                                 Contact us
                             </Typography>
@@ -277,29 +318,28 @@ const App=()=>{
                     
 
                         <Grid container sm={12}>
-                            <Grid item sm={12}  md={6}  sx={{mt:'40px'}}>
+                            <Grid container item sm={12}  md={6}   sx={{mt:'40px',display:'flex',flexWrap: 'wrap',justifyContent: 'flex-end',flexDirection:'column'}}>
                                 <Typography className={labels.typography}>City</Typography>
-                                <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{style: { width:'172px',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="ex. Thessaloniki" variant="outlined" fullwidth />
+                                <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{style: {width:'100%',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="ex. Thessaloniki" variant="outlined" fullWidth />
                             </Grid>
-                            <Grid container sm={12}  md={6}   sx={{mt:'40px',display:'flex',flexWrap: 'wrap',justifyContent: 'flex-end',flexDirection:'column'}}>
+                            <Grid container item sm={12}  md={6}   sx={{mt:'40px',display:'flex',flexWrap: 'wrap',justifyContent: 'flex-end',flexDirection:'column'}}>
                                 <Typography className={labels.typography}>Postal Code</Typography>
-                                <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{style: {justifySelf:'right',width:'100%',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="ex. 54658" variant="outlined" fullWidth />
+                                <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{style: {width:'100%',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="ex. 54658" variant="outlined" fullWidth />
                             </Grid>
+
+                            <Grid container item sm={12}  md={12}   sx={{mt:'40px',display:'flex',flexWrap: 'wrap',justifyContent: 'flex-end',flexDirection:'column'}}>
+                                <Typography className={labels.typography}>Address</Typography>
+                                <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{style: {width:'100%',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="ex. Thessaloniki" variant="outlined" fullWidth />
+                            </Grid>
+
                         </Grid>
                        
                             
                 
                 
 
-                        <Grid item xs={12}  sx={{mt:'32px'}}>
-                            <Typography className={labels.typography}>Address</Typography>
-                        </Grid>
-                        <Grid item xs={12} sx={{mt:'8px'}}>
-                            <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{style: { width:'288px',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="ex. Thessaloniki" variant="outlined" fullwidth />
-                        </Grid>
-
                         
-                        <Grid container xs={6}  sm={12} className={alignright.container} sx={{mt:'32px',display:''}}>
+                        <Grid container xs={12}  sm={12} className={alignright.container} sx={{mt:'32px',display:''}}>
                             <Typography className={labels.typography}>Your Message</Typography>
                             <Typography className={optional.typography}>Optional</Typography>
                         </Grid>
@@ -330,15 +370,17 @@ const App=()=>{
                     </Grid>
                     
                     {/* RIGHT PART */}
-                    <Grid item  container xs={12} sm={12} md={6}>
-                        <Grid item  sx={{display:'flex',justifyContent:'flex-end'}} xs={ 12}>
+                    <Grid item  container xs={12} sm={12} md={6} spacing={1} sx={{height:'fit-content'}}>
+                        <Grid item   sx={{display:'flex',justifyContent:{sm:'center',md:'flex-end'},height:'fit-content'}} xs={ 12}>
                             <Box   sx={{mt:'100px',width:"476px",height:"416px",backgroundColor:'#791010'}}  >
                             </Box>
                         </Grid>
-                        <Grid item xs={ 12}>
-                            <Typography className={headq.typography}>
-                                Headquarters
+                        
+                        <Grid item xs={ 12} sx={{width:'fit-content',justifyContent:{sm:'center',md:'flex-end'}}}>
+                              <Typography className={headq.typography} >
+                                    Headquarters
                             </Typography >
+                        
                             <Typography className={cont.typography}>
                                 Aristotelous 16, 54658 <br/>Thessaloniki, Greece <br/><br/>+30 231 129 0998<br/>hey@smellycat.gr
                             </Typography>
