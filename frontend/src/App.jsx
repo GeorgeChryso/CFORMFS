@@ -242,9 +242,13 @@ const App=()=>{
     const handleSend=async()=>{
         setSent(true)
         try{
-            await axios.post("http://localhost:4000/send_mail",{
+            await axios.post("http://localhost:3000/send_mail", {
                 text
-            })
+              });
+              
+              
+              
+            console.log('email sent sucessfully')
         }catch(error){
             console.log(error)
         }
@@ -319,6 +323,11 @@ const App=()=>{
             <Box  sx={{width:'83.33%', minHeight: "80vh", minWidth:'0', padding: "0 8.33%",backgroundColor:'#EFF1F4',  display:'flex',flexDirection:{xs:'column',sm:'column',md:'row'},flexWrap: 'wrap'  }} className={ml.main} fullWidth>
                 <Grid container spacing={5} sx={{mt:'5.71%'}}> 
                     {/* LEFT PART */}
+                {sent?
+                    <Grid  item   xs={12} sm={12} md={6} lg={6} xl={6} sx={{alignContent:'center',alignItems:'center'}}>
+                        <Typography  className={title.typography}> Thank you for your message! </Typography>
+                    </Grid>
+                    :
                     <Grid  container item   xs={12} sm={12} md={6} lg={6} xl={6}>{/*out of 12*/} 
 
                         <Grid item xs={12} sm={12} sx={{minWidth:'0',flexShrink:'1',flexGrow:'1'}} >
@@ -388,7 +397,7 @@ const App=()=>{
                         </Grid>
                         
                         <Grid container md={12} sx={{mt:'8px'}}>                                          
-                            <TextField   InputLabelProps={{className: plctext.typography}} InputProps={{style: { borderRadius:'5px',width:'100%',height: `168px`,backgroundColor:'#fff'}}}  minRows={5} maxRows={5} id="outlined-multiline-flexible" label="Type your message" variant="outlined" fullWidth multiline />                            
+                            <TextField  onChange={e=>{setText(e.target.value);console.log(text)}} InputLabelProps={{className: plctext.typography}} InputProps={{style: { borderRadius:'5px',width:'100%',height: `168px`,backgroundColor:'#fff'}}}  minRows={5} maxRows={5} id="outlined-multiline-flexible" label="Type your message" variant="outlined" fullWidth multiline />                            
                         </Grid>
                             
            
@@ -404,18 +413,19 @@ const App=()=>{
 
                         {/* SUBMIT BUTTON */}
                         <Grid item xs={12} sx={{mt:'46px'}}>
-                            <Button   variant="contained" sx={{ textTransform: 'none',mb:"5%"}} style={{ background:'#EF7878' , width: 169,height: 48,  borderRadius:5 }}>
+                            <Button onClick={handleSend}  variant="contained" sx={{ textTransform: 'none',mb:"5%"}} style={{ background:'#EF7878' , width: 169,height: 48,  borderRadius:5 }}>
                                 <Typography className={plctext.send}>
                                     Send!
                                 </Typography>
                             </Button>
                         </Grid>
                     </Grid>
+                    }
                     {/* RIGHT PART */}
                     <Grid item  container xs={12} sm={12} md={6} spacing={1} sx={{height:'fit-content'}}>
                         <Grid item   sx={{display:'flex',justifyContent:{sm:'center',md:'flex-end'},height:'fit-content'}} xs={ 12}>
                             <Box   sx={{mt:'100px',width:"476px",height:"416px",backgroundColor:'#791010'}}  >
-                                <iframe width="100%" height="100%" id="gmap_canvas" src="https://maps.google.com/maps?q=Aristotelous%2016,%2054658&t=&z=14&ie=UTF8&iwloc=&output=embed" frameborder="0" marginheight="0" marginwidth="0"></iframe>
+                                <iframe width="100%" height="100%" id="gmap_canvas" src="https://maps.google.com/maps?q=Aristotelous%2016,%2054658&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" marginheight="0" marginwidth="0"></iframe>
                             </Box>
                         </Grid>
                         
@@ -430,11 +440,11 @@ const App=()=>{
                         </Grid>
                     </Grid>
 
-
+                
+    
                 </Grid>
             </Box>
-
-    
+            
             {/* {FOOTER} */}
             <AppBar position="relative"  sx={{background: '#000000' , padding: "0 8.33%", height:{ sm:'fit-content',md:'12.5vh'},display:'flex',alignContent:'center',flexGrow:1}}   >
                 <Toolbar sx={{height:'100%'}} >
