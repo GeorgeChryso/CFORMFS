@@ -249,7 +249,7 @@ const App=()=>{
 
         try{
             if(nameRegex.test(fullName) && emailRegex.test(email) && zipRegex.test(zip) && cityRegex.test(city) && addressRegex.test(address)){
-                await axios.post("https://localhost:3000/send_mail", 
+                await axios.post("/send_mail", 
                     // {message}
                     {'fullName':fullName,'email':email,'zip':zip,'city':city,'message':message}    
                 );
