@@ -9,10 +9,41 @@ app.use(bodyParser.json())
 app.use(cors())
 
 
+app.use(express.json())
+const { Configuration, OpenAIApi } = require("openai");
+
+const configuration = new Configuration({
+    apiKey: process.env.cgptkey,
+  });
+const openai=new OpenAIApi(configuration)
+
+
 app.post('/send_mail',cors(),async (req,res)=>{
   console.log('incoming request',req.body)
-  let { text } = req.body
+  let { fullName,email,zip,city,message } = req.body
+  
+  console.log(fullName,email,zip,city,message)
 
+
+  ///
+  let theprompt=`Write a reply of max 100 tokens as a pet adoption company named SmellyCat to a fan named ${fullName}.
+  He is from ${city}.His message that you have to reply to is ''${message}''. `
+  ///
+
+  const response = await openai.createCompletion({
+     model: "text-davinci-003",
+    //  model: "text-ada-001",
+     prompt: theprompt,
+     max_tokens: 100,
+     temperature: 0,
+     top_p: 1.0,
+     frequency_penalty: 0.0,
+     presence_penalty: 0.0
+   });
+  
+  let textResponse=response.data.choices[0].text
+  
+  console.log(textResponse)
     const transport = nodemailer.createTransport({
       host: process.env.MAIL_HOST,
       secure: false,
@@ -29,25 +60,27 @@ app.post('/send_mail',cors(),async (req,res)=>{
 
     await transport.sendMail({
       from: process.env.MAIL_FROM,
-      to: "cilyxura@decabg.eu",
-      subject: "test email",
+      to: email,
+      subject: "Greetings from SmellyCat!",
       html: `<div className="email" style="
           border: 1px solid black;
           padding: 20px;
           font-family: sans-serif;
           line-height: 2;
           font-size: 20px; 
+          display: flex;
+          alignContent: center;
           ">
-          <h2>Here is your email!</h2>
-          <p>${text}</p>
+          <h2>Smellycat - Pawsitively Amazing Furever Friends</h2>
+          <p>${textResponse}</p>
       
-          <p>All the best, Darwin</p>
+          <p>All the best,</p>
+          <p>SmellyCat</p>
           </div>
       `
     })
 
     res.send('success')
-
 })
 
 app.listen(3000, () => {

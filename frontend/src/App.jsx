@@ -225,31 +225,37 @@ import axios from "axios"
 
 
 const App=()=>{
-    const [state, setState] = React.useState(
-        {
-            top:false,
-            bottom:false,
-            // fullName:'',
-            email:'',
-            city:'',
-            postalCode:'',
-            adress:'',
-            message:''
-        })
-    
-    const [fullName,setName]=React.useState('z')
+    const [state, setState] = React.useState({top:false})
+
     const [sent,setSent]=React.useState(false)
-    const [text,setText]=React.useState('')
+    const [fullName,setName]=React.useState(false),nameRegex= /^(?!\s*$)\b(\w+\b\s*){2,3}$/
+    const [email,setEmail]=React.useState(false), emailRegex=/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+    const [zip,setZip]=React.useState(false), zipRegex=/^[0-9]{1,9}$/
+    const [city,setCity]=React.useState(false),cityRegex=/^[a-zA-Z]{1,19}$/
+    const [address,setAddress]=React.useState(false), addressRegex=/^(?!\s*$)[a-zA-Z0-9,\s]+$/
+    const [message,setMessage]=React.useState('')
+
+
+
     const handleSend=async()=>{
-        setSent(true)
+        if([fullName,email,zip,city,address].some(d=>d===false)){
+            setName(fullName||'')
+            setEmail(email||'')
+            setZip(zip||'')
+            setCity(city||'')
+            setAddress(address||'')
+            return
+        }        
+
         try{
-            await axios.post("http://localhost:3000/send_mail", {
-                text
-              });
-              
-              
-              
-            console.log('email sent sucessfully')
+            if(nameRegex.test(fullName) && emailRegex.test(email) && zipRegex.test(zip) && cityRegex.test(city) && addressRegex.test(address)){
+                await axios.post("http://localhost:3000/send_mail", 
+                    // {message}
+                    {'fullName':fullName,'email':email,'zip':zip,'city':city,'message':message}    
+                );
+                setSent(true)
+                console.log('email sent sucessfully')
+            }
         }catch(error){
             console.log(error)
         }
@@ -348,7 +354,7 @@ const App=()=>{
                                 <Typography  className={labels.typography}>Your Full Name</Typography>
                             </Grid>
                             <Grid item xs={12} sm={9} >
-                                <TextField error={fullName==='George'} helperText={''} onChange={event => setName(event.target.value)} InputLabelProps={{className: plctext.typography}} InputProps={{style: { height: `40px`,backgroundColor:'#fff' }}}   id="outlined-error-helper-text"  label="Type your name" variant="outlined" fullWidth />
+                                <TextField error={(fullName!==false&&!(nameRegex.test(fullName)))} helperText={(fullName!==false&&!(nameRegex.test(fullName)))?'A valid name is required.':''} onChange={event => setName(event.target.value)} InputLabelProps={{className: plctext.typography}} InputProps={{style: { height: `40px`,backgroundColor:'#fff' }}}   id="outlined-error-helper-text"  label="Type your name" variant="outlined" fullWidth />
                             </Grid>
                         </Grid>   
 
@@ -357,7 +363,7 @@ const App=()=>{
                                 <Typography  className={labels.typography}>Your Email</Typography>
                             </Grid>
                             <Grid item xs={12} sm={9} >
-                                <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{style: { height: `40px`,backgroundColor:'#fff' }}}  id="outlined-basic" label="Type your email" variant="outlined" fullWidth />
+                                <TextField error={(email!==false&&!(emailRegex.test(email)))} helperText={(email!==false&&!(emailRegex.test(email)))?'A valid email address is required.':''} onChange={event => setEmail(event.target.value)} InputLabelProps={{className: plctext.typography}} InputProps={{style: { height: `40px`,backgroundColor:'#fff' }}}  id="outlined-basic" label="Type your email" variant="outlined" fullWidth />
                             </Grid>
                         </Grid>   
 
@@ -373,16 +379,16 @@ const App=()=>{
                         <Grid container sm={12}>
                             <Grid container item sm={12}  md={6}   sx={{mt:'40px',display:'flex',flexWrap: 'wrap',justifyContent: 'flex-end',flexDirection:'column'}}>
                                 <Typography className={labels.typography}>City</Typography>
-                                <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{style: {width:'100%',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="ex. Thessaloniki" variant="outlined" fullWidth />
+                                <TextField  error={(city!==false&&!(cityRegex.test(city)))} helperText={(city!==false&&!(cityRegex.test(city)))?'A valid city name is required.':''} onChange={event => setCity(event.target.value)}  InputLabelProps={{className: plctext.typography}} InputProps={{style: {width:'100%',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="ex. Thessaloniki" variant="outlined" fullWidth />
                             </Grid>
                             <Grid container item sm={12}  md={6}   sx={{mt:'40px',display:'flex',flexWrap: 'wrap',justifyContent: 'flex-end',flexDirection:'column'}}>
                                 <Typography className={labels.typography}>Postal Code</Typography>
-                                <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{style: {width:'100%',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="ex. 54658" variant="outlined" fullWidth />
+                                <TextField   error={(zip!==false&&!(zipRegex.test(zip)))} helperText={(zip!==false&&!(zipRegex.test(zip)))?'A valid postal code is required.':''} onChange={event => setZip(event.target.value)}  InputLabelProps={{className: plctext.typography}} InputProps={{style: {width:'100%',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="ex. 54658" variant="outlined" fullWidth />
                             </Grid>
 
                             <Grid container item sm={12}  md={12}   sx={{mt:'40px',display:'flex',flexWrap: 'wrap',justifyContent: 'flex-end',flexDirection:'column'}}>
                                 <Typography className={labels.typography}>Address</Typography>
-                                <TextField  InputLabelProps={{className: plctext.typography}} InputProps={{style: {width:'100%',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="ex. Thessaloniki" variant="outlined" fullWidth />
+                                <TextField   error={(address!==false&&!(addressRegex.test(address)))} helperText={(address!==false&&!(addressRegex.test(address)))?'A valid address is required.':''} onChange={event => setAddress(event.target.value)}  InputLabelProps={{className: plctext.typography}} InputProps={{style: {width:'100%',height: `40px`,backgroundColor:'#fff' }}} id="outlined-basic" label="ex. Thessaloniki" variant="outlined" fullWidth />
                             </Grid>
 
                         </Grid>
@@ -398,7 +404,7 @@ const App=()=>{
                         </Grid>
                         
                         <Grid container md={12} sx={{mt:'8px'}}>                                          
-                            <TextField  onChange={e=>{setText(e.target.value);console.log(text)}} InputLabelProps={{className: plctext.typography}} InputProps={{style: { borderRadius:'5px',width:'100%',height: `168px`,backgroundColor:'#fff'}}}  minRows={5} maxRows={5} id="outlined-multiline-flexible" label="Type your message" variant="outlined" fullWidth multiline />                            
+                            <TextField  onChange={e=>{setMessage(e.target.value)}} InputLabelProps={{className: plctext.typography}} InputProps={{style: { borderRadius:'5px',width:'100%',height: `168px`,backgroundColor:'#fff'}}}  minRows={5} maxRows={5} id="outlined-multiline-flexible" label="Type your message" variant="outlined" fullWidth multiline />                            
                         </Grid>
                             
            
