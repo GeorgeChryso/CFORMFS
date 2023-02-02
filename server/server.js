@@ -8,6 +8,14 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(cors())
 
+const path=require('path')
+app.use(express.static(path.join(__dirname,'build')))
+app.get('/',(req,res)=>{
+    res.sendFile(path.join(__dirname,'build','index.html'))
+    
+})
+
+
 
 app.use(express.json())
 const { Configuration, OpenAIApi } = require("openai");
@@ -82,6 +90,9 @@ app.post('/send_mail',cors(),async (req,res)=>{
 
     res.send('success')
 })
+
+
+
 
 app.listen(3000, () => {
   console.log("Server listening on port 3000");
