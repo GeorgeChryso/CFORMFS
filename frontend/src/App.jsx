@@ -237,6 +237,7 @@ const App=()=>{
             message:''
         })
     
+    const [fullName,setName]=React.useState('z')
     const [sent,setSent]=React.useState(false)
     const [text,setText]=React.useState('')
     const handleSend=async()=>{
@@ -347,7 +348,7 @@ const App=()=>{
                                 <Typography  className={labels.typography}>Your Full Name</Typography>
                             </Grid>
                             <Grid item xs={12} sm={9} >
-                                <TextField onChange={event => this.setState({ fullName: event.target.value })} InputLabelProps={{className: plctext.typography}} InputProps={{style: { height: `40px`,backgroundColor:'#fff' }}}   id="outlined-error-helper-text" error={state.fullName===''} helperText="A Full name is required" label="Type your name" variant="outlined" fullWidth />
+                                <TextField error={fullName==='George'} helperText={''} onChange={event => setName(event.target.value)} InputLabelProps={{className: plctext.typography}} InputProps={{style: { height: `40px`,backgroundColor:'#fff' }}}   id="outlined-error-helper-text"  label="Type your name" variant="outlined" fullWidth />
                             </Grid>
                         </Grid>   
 
