@@ -1,35 +1,17 @@
 import {Typography,TextField,Box,Divider } from '@material-ui/core'
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
 import CssBaseline from '@mui/material/CssBaseline';
-import Toolbar from '@mui/material/Toolbar';    
 
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
-import logo from './SmellyLogo.png'
-import logobottom from './logoBottom.png'
-import discord from './discord.png'
-import insta from './insta.png'
-import tweet from './tweet.png'
+
 import './index.css'
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@mui/material/Grid';
-
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-
-
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Pets from '@mui/icons-material/Pets';
-
-
 import axios from "axios"
 
+import Header from './Header/Header';
+import Footer from './Footer/Footer'
 
   let titleTheme=makeStyles( theme=>({
     typography: {
@@ -50,39 +32,7 @@ import axios from "axios"
           }
       }})
   )
-  let menuTheme=makeStyles((theme)=>({
-    typography: {
-        'fontFamily': 'Manrope',
-        'color':'#555555',
-        "fontSize": 14,
-        'letterSpacing': -0.5,
-        'fontWeight':'bold',
-        'lineSpacing': 22.5,
-        'textTransform':'none',
-        textAlign:'center'
-      },
-    footer:{
-        'fontFamily': 'Manrope',
-        'color':'#fff',
-        "fontSize": 14,
-        'letterSpacing': -0.17,
-        'fontWeight':'medium',
-        'lineSpacing': 22.5,
-        'textTransform':'none',
-        alignContent:'center',
-        'textAlign':'center'
-    },
-    copyright:{
-        'fontFamily': 'Manrope',
-        'color':'#fff',
-        "fontSize": 12,
-        'letterSpacing': -0.15,
-        'fontWeight':50,
-        'lineSpacing': 22.5,
-        'textTransform':'none',
-    }
-    })
-  )
+
   let catPersons=makeStyles((theme)=>({
     typography: {
         'fontFamily': 'Manrope-SemiBold',
@@ -225,7 +175,6 @@ import axios from "axios"
 
 
 const App=()=>{
-    const [state, setState] = React.useState({top:false})
 
     const [sent,setSent]=React.useState(false)
     const [fullName,setName]=React.useState(false),nameRegex= /^(?!\s*$)\b(\w+\b\s*){2,3}$/
@@ -249,11 +198,12 @@ const App=()=>{
 
         try{
             if(nameRegex.test(fullName) && emailRegex.test(email) && zipRegex.test(zip) && cityRegex.test(city) && addressRegex.test(address)){
+                setSent(true)
+
                 await axios.post("/send_mail", 
                     // {message}
                     {'fullName':fullName,'email':email,'zip':zip,'city':city,'message':message}    
                 );
-                setSent(true)
                 console.log('email sent sucessfully')
             }
         }catch(error){
@@ -261,34 +211,10 @@ const App=()=>{
         }
     }
 
-    const toggleDrawer = (anchor, open) => (event) => {
-        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-          return;
-        }
-    
-        setState({ ...state, [anchor]: open });
-      };
-    
-    const list = (anchor) => (
-        <Box sx={{ width: 'auto' }}  role="presentation"onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
-          <List >
-            {['Adopt Kittens','Kitty Stories','About us','Blog','Contact'].map((text, index) => (
-              <ListItem key={text} disablePadding >
-                <ListItemButton>
-                  <ListItemIcon>
-                    <Pets/>
-                  </ListItemIcon>
-                  <ListItemText primary={<Typography className={menu.typography}>{text}</Typography>} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-    );
+   
     
       
     const ml=mainLayout()
-    const menu=menuTheme()
     const title=titleTheme()
     const catpersons=catPersons()
     const labels=myLabels()
@@ -306,26 +232,8 @@ const App=()=>{
             
 
             {/* {HEADER} */}
-            <AppBar position="relative"  style={{ boxShadow: '0px 2px #A0A9BA', background: '#FFFFFF' , height:'3.43%',padding: "0 8.33%"}} elevation={5}  >
-                <Toolbar display="flex" sx={{alignContent:'center',display:'flex',justifyContent:'flex-end',flexWrap: 'wrap', flexDirection:{xs:'row',sm:'row'} }}>
-                    <img src={logo}  style={{ marginRight: 'auto',display:'block'}}/>
-
-                    <React.Fragment key={'top'}>
-                        <IconButton onClick={toggleDrawer('top', true)} color="#555555" sx={{backgroundColor:'#fff',display:{md:'none',sm:'block'}}}><MenuIcon /></IconButton>
-                        <Drawer anchor={'top'} open={state['top']}onClose={toggleDrawer('top', false)}>
-                            {list('top')}
-                        </Drawer>
-                    </React.Fragment>
-
-
-                    {['Adopt Kittens','Kitty Stories','About us','Blog','Contact'].map(s=>
-                        <Button sx={{ minWidth: "fit-content",ml:'4%',display:{xs:'none',sm:'none',md:'flex'}}} variant="text">
-                            <Typography  className={menu.typography} gutterBottom >{s}</Typography>
-                        </Button>
-                    )}
-                </Toolbar>
-            </AppBar>
-
+            <Header />
+          
             {/* BODY */}
             <Box  sx={{width:'83.33%', minHeight: "80vh", minWidth:'0', padding: "0 8.33%",backgroundColor:'#EFF1F4',  display:'flex',flexDirection:{xs:'column',sm:'column',md:'row'},flexWrap: 'wrap'  }} className={ml.main} fullWidth>
                 <Grid container spacing={5} sx={{mt:'5.71%'}}> 
@@ -420,7 +328,7 @@ const App=()=>{
 
                         {/* SUBMIT BUTTON */}
                         <Grid item xs={12} sx={{mt:'46px'}}>
-                            <Button onClick={handleSend}  variant="contained" sx={{ textTransform: 'none',mb:"5%"}} style={{ background:'#EF7878' , width: 169,height: 48,  borderRadius:5 }}>
+                            <Button disabled={sent} onClick={handleSend}  variant="contained" sx={{ textTransform: 'none',mb:"5%"}} style={{ background:'#EF7878' , width: 169,height: 48,  borderRadius:5 }}>
                                 <Typography className={plctext.send}>
                                     Send!
                                 </Typography>
@@ -451,44 +359,17 @@ const App=()=>{
     
                 </Grid>
             </Box>
-            
-            {/* {FOOTER} */}
-            <AppBar position="relative"  sx={{background: '#000000' , padding: "0 8.33%", height:{ sm:'fit-content',md:'12.5vh'},display:'flex',alignContent:'center',flexGrow:1}}   >
-                <Toolbar sx={{height:'100%'}} >
-                    <Grid container sx={{display:'flex',justifyContent: {sm:'center',md:'space-between'},flexWrap: 'wrap', flexDirection:{xs:'column',md:'row'} }} >
-                        <Grid  item  xs={12}  md={3} sx={{display:'flex',justifyContent:{md:'flex-start',xs:'center'}}} >
-                            <Button><img src={logobottom}  /></Button>
-                        </Grid>
-                        <Grid  container item   xs={12} md={6} sx={{display:'flex',justifyContent:'center', mx:'auto',my:'auto',flexDirection:{xs:'column',md:'row'}}}>
-                            {['Privacy Policy','Terms & Conditions','Blog','Support'].map(s=>
-                                <Button style={{marginLeft:'4%'}} variant="text">
-                                    <Typography  className={menu.footer} gutterBottom >{s}</Typography>
-                                </Button>
-                            )}
-                        </Grid>
-                        <Grid  item  xs={12} md={3} sx={{display:'flex',justifyContent:{md:'flex-end',xs:'center'}}} >
-                            <Button><img src={discord} /></Button>
-                            <Button><img src={tweet} /></Button>
-                            <Button><img src={insta} style={{maxWidth: "fit-content"}} /></Button>
-                        </Grid>
-                    </Grid>
-                </Toolbar>
-                <Box sx={{height:'32px',display:'flex',justifyContent:'center'}} >
-                    <Typography  className={menu.copyright} >Copyright © SmellyCat 2020</Typography>
-                </Box>
-
-            </AppBar>
                     
+
+
+            <Footer />
+        
                     
                     
 </Box> 
             
           );
 }
-
-
-
-
 
 
 export default App;
