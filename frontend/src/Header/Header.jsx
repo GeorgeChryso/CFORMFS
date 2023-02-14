@@ -16,7 +16,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Pets from '@mui/icons-material/Pets';
 
 
-
 let mainTheme=makeStyles((theme)=>({
     headerText: {
         'fontFamily': 'Manrope',
@@ -37,42 +36,39 @@ let mainTheme=makeStyles((theme)=>({
 
 const Header=()=>{
 
-    const [state, setState] = React.useState({top:false})
+    const [state, setState] = React.useState(false)
 
     const headerTheme=mainTheme()
-    const toggleDrawer = (anchor, open) => (event) => {
-        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    const toggleDrawer = (open) => (event) => {
+      // Prevent from closing when the user is using the keyboard to navigate
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) 
           return;
-        }
-    
-        setState({ ...state, [anchor]: open });
+        setState(open);
     };
-    const list = (anchor) => (
-        <Box sx={{ width: 'auto' }}  role="presentation" onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
-          <List >
-            {['Adopt Kittens','Kitty Stories','About us','Blog','Contact'].map((text, index) => (
-              <ListItem key={text} disablePadding >
-                <ListItemButton>
-                  <ListItemIcon>
-                    <Pets/>
-                  </ListItemIcon>
-                  <ListItemText primary={<Typography className={headerTheme.headerText}>{text}</Typography>} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-    );
+
 
     return (
         <AppBar position="relative"  style={{ boxShadow: '0px 2px #A0A9BA', background: '#FFFFFF' , height:'3.43%',padding: "0 8.33%"}} elevation={5}  >
             <Toolbar display="flex" sx={{alignContent:'center',display:'flex',justifyContent:'flex-end',flexWrap: 'wrap', flexDirection:{xs:'row',sm:'row'} }}>
                 <img src={logo}  style={{ marginRight: 'auto',display:'block'}}/>
-
                 <React.Fragment key={'top'}>
-                    <IconButton onClick={toggleDrawer('top', true)} color="#555555" sx={{backgroundColor:'#fff',display:{md:'none',sm:'block'}}}><MenuIcon /></IconButton>
-                    <Drawer anchor={'top'} open={state['top']}onClose={toggleDrawer('top', false)}>
-                        {list('top')}
+                    <IconButton onClick={toggleDrawer(true)} color="#555555" sx={{backgroundColor:'#fff',display:{md:'none',sm:'block'}}}><MenuIcon /></IconButton>
+                    <Drawer anchor={'top'} open={state} onClose={toggleDrawer(false)}>
+                        
+                      <Box sx={{ width: 'auto' }}  role="presentation" onClick={toggleDrawer( false)} onKeyDown={toggleDrawer( false)}>
+                        <List >
+                          {['Adopt Kittens','Kitty Stories','About us','Blog','Contact'].map((text, index) => (
+                            <ListItem key={text} disablePadding >
+                              <ListItemButton>
+                                <ListItemIcon>
+                                  <Pets/>
+                                </ListItemIcon>
+                                <ListItemText primary={<Typography className={headerTheme.headerText}>{text}</Typography>} />
+                              </ListItemButton>
+                            </ListItem>
+                          ))}
+                        </List>
+                      </Box>
                     </Drawer>
                 </React.Fragment>
 

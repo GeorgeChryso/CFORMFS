@@ -1,15 +1,12 @@
 import {Typography,TextField,Box,Divider } from '@material-ui/core'
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
-
 import './index.css'
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@mui/material/Grid';
 import axios from "axios"
-
 import Header from './Header/Header';
 import Footer from './Footer/Footer'
 
